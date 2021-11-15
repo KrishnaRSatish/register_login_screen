@@ -29,16 +29,6 @@ fun RegisterScreen(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    var isEmailValid by remember {
-        mutableStateOf(false)
-    }
-    var isPasswordValid by remember {
-        mutableStateOf(false)
-    }
-
-    var isUsernameValid by remember {
-        mutableStateOf(false)
-    }
 
     val passwordMinLength = 5
     val userNameMinLength = 5
@@ -124,7 +114,7 @@ fun RegisterScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                    navController.navigate(Screen.MainScreen.route)
+                    navController.navigate(Screen.MainScreen.withArgs(viewModel.emailText.value))
                 },
                 enabled = viewModel.isEmailValid.value && viewModel.isPasswordValid.value && viewModel.isUserNameValid.value,
                 modifier = Modifier
@@ -134,7 +124,6 @@ fun RegisterScreen(
                     text = stringResource(id = R.string.register),
                     color = MaterialTheme.colors.onPrimary
                 )
-
             }
         }
         Text(

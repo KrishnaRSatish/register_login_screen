@@ -1,11 +1,12 @@
-package com.example.login_register.ui.theme
+package com.example.login_register.presentation.ui.theme
 
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.darkColors
 import androidx.compose.runtime.Composable
+import com.example.login_register.ui.theme.Shapes
 
 private val DarkColorPalette = darkColors(
-    primary = OrangeAccent,
+    primary = YellowAccent,
     background = DarkGrey,
     onBackground = TextWhite,
     onPrimary = DarkGrey,

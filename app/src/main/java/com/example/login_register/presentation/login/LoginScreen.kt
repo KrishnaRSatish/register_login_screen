@@ -93,7 +93,7 @@ fun LoginScreen(
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
                 onClick = {
-                    navController.navigate(Screen.MainScreen.route)
+                    navController.navigate(Screen.MainScreen.withArgs(viewModel.usernameText.value))
                 },
                 enabled = viewModel.isEmailValid.value && viewModel.isPasswordValid.value,
                 modifier = Modifier

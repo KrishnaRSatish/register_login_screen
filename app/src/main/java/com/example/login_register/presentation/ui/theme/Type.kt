@@ -1,4 +1,4 @@
-package com.example.login_register.ui.theme
+package com.example.login_register.presentation.ui.theme
 
 import androidx.compose.material.Typography
 import androidx.compose.ui.text.TextStyle

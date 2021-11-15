@@ -1,9 +1,11 @@
 package com.example.login_register.util
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.login_register.presentation.login.LoginScreen
 import com.example.login_register.presentation.main_screen.MainScreen
 import com.example.login_register.presentation.register.RegisterScreen
@@ -25,8 +27,15 @@ fun Navigation() {
         composable(Screen.RegisterScreen.route){
             RegisterScreen(navController = navController)
         }
-        composable(Screen.MainScreen.route){
-            MainScreen(navController = navController)
+        composable(
+            route = Screen.MainScreen.route + "/{email}",
+            arguments = listOf(
+                navArgument("email"){
+                    type =  NavType.StringType
+                }
+            )
+        ){entry ->
+            MainScreen( name= entry.arguments?.getString("email"),navController = navController)
         }
 
     }
