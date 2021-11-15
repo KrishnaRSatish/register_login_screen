@@ -1,0 +1,14 @@
+<resources>
+    <string name="app_name">login_register</string>
+    <string name="login">Login</string>
+    <string name="password_hint">Password</string>
+    <string name="email_hint">Username/E-mail</string>
+    <string name="password_visible_description">Hide password</string>
+    <string name="password_hidden_description">Show password</string>
+    <string name="dont_have_an_account_yet">Don\'t have an account yet?</string>
+    <string name="signup">Sign up</string>
+    <string name="email">E-mail</string>
+    <string name="username">User Name</string>
+    <string name="register">Register</string>
+    <string name="already_have_an_account">Already have an account?</string>
+</resources>
