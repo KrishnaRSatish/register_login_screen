@@ -21,7 +21,7 @@ import com.example.login_register.R
 fun StandardTextField(
     text: String = "",
     hint: String = "",
-    maxLength:Int = 10,
+    maxLength:Int = 100,
     onValueChange: (String) -> Unit,
     error: String = "",
     keyboardType: KeyboardType = KeyboardType.Text,
@@ -87,11 +87,6 @@ fun StandardTextField(
                 textAlign = TextAlign.End
             )
         }
-    }
-
-
-    fun isEmailValid(email: String ){
-        android.util.Patterns.EMAIL_ADDRESS.matcher(email).matches()
     }
 
 }

@@ -1,11 +1,12 @@
 package com.example.login_register.presentation.register
 
+import android.text.TextUtils
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -18,14 +19,30 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.login_register.R
 import com.example.login_register.presentation.components.StandardTextField
+import com.example.login_register.presentation.login.isEmailValid
 import com.example.login_register.presentation.ui.theme.SpaceLarge
 import com.example.login_register.presentation.ui.theme.SpaceMedium
+import com.example.login_register.util.Screen
 
 @Composable
 fun RegisterScreen(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
+    var isEmailValid by remember{
+        mutableStateOf(false)
+    }
+    var isPasswordValid by remember{
+        mutableStateOf(false)
+    }
+
+    var isUsernameValid by remember{
+        mutableStateOf(false)
+    }
+
+    val passwordMinLength = 5
+    val userNameMinLength = 5
+
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -52,6 +69,13 @@ fun RegisterScreen(
                 text = viewModel.emailText.value,
                 onValueChange = {
                     viewModel.setEmailText(it)
+                    isEmailValid = if(!viewModel.emailText.value.isEmailValid()){
+                        viewModel.setEmailNameError("Enter Valid Email")
+                        false
+                    } else{
+                        viewModel.setEmailNameError("")
+                        true
+                    }
                 },
                 hint = stringResource(id = R.string.email),
                 //isError = viewModel.usernameText.value == "error"
@@ -63,6 +87,13 @@ fun RegisterScreen(
                 text = viewModel.usernameText.value,
                 onValueChange = {
                     viewModel.setUserNameText(it)
+                    isUsernameValid = if( viewModel.usernameText.value.length<userNameMinLength){
+                        viewModel.setUserNameError("Password too short")
+                        false
+                    } else{
+                        viewModel.setUserNameError("")
+                        true
+                    }
                 },
                 hint = stringResource(id = R.string.username),
                 //isError = viewModel.usernameText.value == "error"
@@ -74,6 +105,13 @@ fun RegisterScreen(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)
+                    isPasswordValid = if( viewModel.passwordText.value.length<passwordMinLength){
+                        viewModel.setPasswordError("Password too short")
+                        false
+                    } else{
+                        viewModel.setPasswordError("")
+                        true
+                    }
                 },
                 hint = stringResource(id = R.string.password_hint),
                 error = viewModel.passwordError.value,
@@ -84,7 +122,9 @@ fun RegisterScreen(
             }
             Spacer(modifier = Modifier.height(SpaceMedium))
             Button(
-                onClick = { },
+                onClick = {
+                    navController.navigate(Screen.MainScreen.route)
+                },
                 modifier = Modifier
                     .align(Alignment.End)
             ) {
@@ -118,4 +158,8 @@ fun RegisterScreen(
                 }
         )
     }
+}
+
+fun String.isEmailValid(): Boolean {
+    return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
 }

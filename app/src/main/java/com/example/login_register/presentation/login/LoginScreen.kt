@@ -1,11 +1,12 @@
 package com.example.login_register.presentation.login
 
+import android.text.TextUtils
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.Button
 import androidx.compose.material.MaterialTheme
 import androidx.compose.material.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.res.stringResource
@@ -26,7 +27,17 @@ import com.example.login_register.util.Screen
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
+
 ) {
+
+    var isEmailValid by remember{
+        mutableStateOf(false)
+    }
+    var isPasswordValid by remember{
+        mutableStateOf(false)
+    }
+    val passwordMinLength = 5
+
     Box(modifier = Modifier
         .fillMaxSize()
         .padding(
@@ -52,6 +63,13 @@ fun LoginScreen(
                 text = viewModel.usernameText.value,
                 onValueChange = {
                     viewModel.setUserNameText(it)
+                    isEmailValid = if(!viewModel.usernameText.value.isEmailValid()){
+                        viewModel.setUserNameError("Enter Valid Email")
+                        false
+                    } else{
+                        viewModel.setUserNameError("")
+                        true
+                    }
                 },
                 hint = stringResource(id = R.string.email_hint),
                 //isError = viewModel.usernameText.value == "error"
@@ -63,11 +81,12 @@ fun LoginScreen(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)
-                    if( viewModel.passwordText.value=="error"){
-                        viewModel.setPasswordError("Password Error")
-                    }
-                    else{
+                    isPasswordValid = if( viewModel.passwordText.value.length<passwordMinLength){
+                        viewModel.setPasswordError("Password too short")
+                        false
+                    } else{
                         viewModel.setPasswordError("")
+                        true
                     }
                 },
                 hint = stringResource(id = R.string.password_hint),
@@ -81,6 +100,7 @@ fun LoginScreen(
             Button(onClick = {
                 navController.navigate(Screen.MainScreen.route)
             },
+            enabled= isEmailValid,
             modifier = Modifier
                 .align(Alignment.End)
             ) {
@@ -112,4 +132,13 @@ fun LoginScreen(
 
         )
     }
+
 }
+
+fun String.isEmailValid(): Boolean {
+    return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
+}
+
+
+
+
