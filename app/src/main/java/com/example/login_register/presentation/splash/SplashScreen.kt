@@ -30,7 +30,7 @@ fun SplashScreen(
     val overshootInterpolator = remember {
         OvershootInterpolator(2f)
     }
-    LaunchedEffect(key1 = true){
+    LaunchedEffect(key1 = true) {
         scale.animateTo(
             targetValue = 0.5f,
             animationSpec = tween(
@@ -48,8 +48,9 @@ fun SplashScreen(
         modifier = Modifier.fillMaxSize(),
         contentAlignment = Alignment.Center
 
-    ){
-        Image(painter = painterResource(id = R.drawable.ic_logo),
+    ) {
+        Image(
+            painter = painterResource(id = R.drawable.ic_logo),
             contentDescription = "Logo",
             modifier = Modifier.scale(scale.value)
         )

@@ -22,6 +22,8 @@ import com.example.login_register.presentation.components.StandardTextField
 import com.example.login_register.presentation.login.isEmailValid
 import com.example.login_register.presentation.ui.theme.SpaceLarge
 import com.example.login_register.presentation.ui.theme.SpaceMedium
+import com.example.login_register.util.Constants.MIN_PASSWORD_LENGTH
+import com.example.login_register.util.Constants.MIN_USERNAME_LENGTH
 import com.example.login_register.util.Screen
 
 @Composable
@@ -29,10 +31,6 @@ fun RegisterScreen(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
-
-    val passwordMinLength = 5
-    val userNameMinLength = 5
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -70,14 +68,13 @@ fun RegisterScreen(
                 hint = stringResource(id = R.string.email),
                 //isError = viewModel.usernameText.value == "error"
                 error = viewModel.emailError.value,
-
                 )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
                 text = viewModel.usernameText.value,
                 onValueChange = {
                     viewModel.setUserNameText(it)
-                    if (viewModel.usernameText.value.length < userNameMinLength) {
+                    if (viewModel.usernameText.value.length < MIN_USERNAME_LENGTH) {
                         viewModel.setUserNameError("Username too short")
                         viewModel.setIsUsernameValid(false)
 
@@ -89,14 +86,13 @@ fun RegisterScreen(
                 hint = stringResource(id = R.string.username),
                 //isError = viewModel.usernameText.value == "error"
                 error = viewModel.usernameError.value,
-
                 )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)
-                    if (viewModel.passwordText.value.length < passwordMinLength) {
+                    if (viewModel.passwordText.value.length < MIN_PASSWORD_LENGTH) {
                         viewModel.setPasswordError("Password too short")
                         viewModel.setIsPasswordValid(false)
                     } else {
@@ -130,13 +126,12 @@ fun RegisterScreen(
             text = buildAnnotatedString {
                 append(stringResource(id = R.string.already_have_an_account))
                 append("")
-
                 withStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colors.primary
                     )
                 ) {
-                    append("   Sign in")
+                    append("  Sign in")
                 }
             },
             style = MaterialTheme.typography.body1,

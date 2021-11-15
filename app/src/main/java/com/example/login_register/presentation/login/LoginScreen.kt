@@ -21,16 +21,14 @@ import com.example.login_register.R
 import com.example.login_register.presentation.components.StandardTextField
 import com.example.login_register.presentation.ui.theme.SpaceLarge
 import com.example.login_register.presentation.ui.theme.SpaceMedium
+import com.example.login_register.util.Constants.MIN_PASSWORD_LENGTH
 import com.example.login_register.util.Screen
 
 @Composable
 fun LoginScreen(
     navController: NavController,
     viewModel: LoginViewModel = hiltViewModel()
-
 ) {
-    val passwordMinLength = 5
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -75,7 +73,7 @@ fun LoginScreen(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)
-                    if (viewModel.passwordText.value.length < passwordMinLength) {
+                    if (viewModel.passwordText.value.length < MIN_PASSWORD_LENGTH) {
                         viewModel.setPasswordError("Password too short")
                         viewModel.setIsPasswordValid(false)
                     } else {
@@ -103,22 +101,18 @@ fun LoginScreen(
                     text = stringResource(id = R.string.login),
                     color = MaterialTheme.colors.onPrimary
                 )
-
             }
         }
-
-
         Text(
             text = buildAnnotatedString {
                 append(stringResource(id = R.string.dont_have_an_account_yet))
                 append("")
-
                 withStyle(
                     style = SpanStyle(
                         color = MaterialTheme.colors.primary
                     )
                 ) {
-                    append("   Sign Up")
+                    append("  Sign Up")
                 }
             },
             style = MaterialTheme.typography.body1,
@@ -127,10 +121,8 @@ fun LoginScreen(
                 .clickable {
                     navController.navigate(Screen.RegisterScreen.route)
                 }
-
         )
     }
-
 }
 
 fun String.isEmailValid(): Boolean {

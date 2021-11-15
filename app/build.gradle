@@ -87,4 +87,7 @@ dependencies {
 
     // Kotlin Extensions and Coroutines support for Room
     implementation "androidx.room:room-ktx:2.3.0"
+
+    //Timber for logging
+    implementation 'com.jakewharton.timber:timber:4.7.1'
 }

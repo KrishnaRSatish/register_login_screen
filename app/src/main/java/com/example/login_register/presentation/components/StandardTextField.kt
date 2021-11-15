@@ -70,10 +70,8 @@ fun StandardTextField(
                                 stringResource(id = R.string.password_hidden_description)
                             }
                         )
-
                     }
                 }
-
             },
             modifier = Modifier.fillMaxWidth()
         )
@@ -88,5 +86,4 @@ fun StandardTextField(
             )
         }
     }
-
 }
