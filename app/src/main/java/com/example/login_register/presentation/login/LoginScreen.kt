@@ -63,12 +63,12 @@ fun LoginScreen(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)
-                  /*  if( viewModel.passwordText.value=="error"){
+                    if( viewModel.passwordText.value=="error"){
                         viewModel.setPasswordError("Password Error")
                     }
                     else{
                         viewModel.setPasswordError("")
-                    }*/
+                    }
                 },
                 hint = stringResource(id = R.string.password_hint),
                 error = viewModel.passwordError.value,
