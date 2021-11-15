@@ -29,14 +29,14 @@ fun RegisterScreen(
     navController: NavController,
     viewModel: RegisterViewModel = hiltViewModel()
 ) {
-    var isEmailValid by remember{
+    var isEmailValid by remember {
         mutableStateOf(false)
     }
-    var isPasswordValid by remember{
+    var isPasswordValid by remember {
         mutableStateOf(false)
     }
 
-    var isUsernameValid by remember{
+    var isUsernameValid by remember {
         mutableStateOf(false)
     }
 
@@ -69,12 +69,12 @@ fun RegisterScreen(
                 text = viewModel.emailText.value,
                 onValueChange = {
                     viewModel.setEmailText(it)
-                    isEmailValid = if(!viewModel.emailText.value.isEmailValid()){
-                        viewModel.setEmailNameError("Enter Valid Email")
-                        false
-                    } else{
-                        viewModel.setEmailNameError("")
-                        true
+                    if (!viewModel.emailText.value.isEmailValid()) {
+                        viewModel.setEmailError("Enter Valid Email")
+                        viewModel.setIsEmailValid(false)
+                    } else {
+                        viewModel.setEmailError("")
+                        viewModel.setIsEmailValid(true)
                     }
                 },
                 hint = stringResource(id = R.string.email),
@@ -87,12 +87,13 @@ fun RegisterScreen(
                 text = viewModel.usernameText.value,
                 onValueChange = {
                     viewModel.setUserNameText(it)
-                    isUsernameValid = if( viewModel.usernameText.value.length<userNameMinLength){
-                        viewModel.setUserNameError("Password too short")
-                        false
-                    } else{
+                    if (viewModel.usernameText.value.length < userNameMinLength) {
+                        viewModel.setUserNameError("Username too short")
+                        viewModel.setIsUsernameValid(false)
+
+                    } else {
                         viewModel.setUserNameError("")
-                        true
+                        viewModel.setIsUsernameValid(true)
                     }
                 },
                 hint = stringResource(id = R.string.username),
@@ -105,12 +106,12 @@ fun RegisterScreen(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)
-                    isPasswordValid = if( viewModel.passwordText.value.length<passwordMinLength){
+                    if (viewModel.passwordText.value.length < passwordMinLength) {
                         viewModel.setPasswordError("Password too short")
-                        false
-                    } else{
+                        viewModel.setIsPasswordValid(false)
+                    } else {
                         viewModel.setPasswordError("")
-                        true
+                        viewModel.setIsPasswordValid(true)
                     }
                 },
                 hint = stringResource(id = R.string.password_hint),
@@ -125,6 +126,7 @@ fun RegisterScreen(
                 onClick = {
                     navController.navigate(Screen.MainScreen.route)
                 },
+                enabled = viewModel.isEmailValid.value && viewModel.isPasswordValid.value && viewModel.isUserNameValid.value,
                 modifier = Modifier
                     .align(Alignment.End)
             ) {
@@ -135,8 +137,6 @@ fun RegisterScreen(
 
             }
         }
-
-
         Text(
             text = buildAnnotatedString {
                 append(stringResource(id = R.string.already_have_an_account))
@@ -160,6 +160,3 @@ fun RegisterScreen(
     }
 }
 
-fun String.isEmailValid(): Boolean {
-    return !TextUtils.isEmpty(this) && android.util.Patterns.EMAIL_ADDRESS.matcher(this).matches()
-}

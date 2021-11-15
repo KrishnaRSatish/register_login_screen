@@ -29,24 +29,18 @@ fun LoginScreen(
     viewModel: LoginViewModel = hiltViewModel()
 
 ) {
-
-    var isEmailValid by remember{
-        mutableStateOf(false)
-    }
-    var isPasswordValid by remember{
-        mutableStateOf(false)
-    }
     val passwordMinLength = 5
 
-    Box(modifier = Modifier
-        .fillMaxSize()
-        .padding(
-            start = SpaceLarge,
-            end = SpaceLarge,
-            top = SpaceLarge,
-            bottom = 50.dp
-        )
-        ) {
+    Box(
+        modifier = Modifier
+            .fillMaxSize()
+            .padding(
+                start = SpaceLarge,
+                end = SpaceLarge,
+                top = SpaceLarge,
+                bottom = 50.dp
+            )
+    ) {
         Column(
             verticalArrangement = Arrangement.Center,
             modifier = Modifier
@@ -63,30 +57,30 @@ fun LoginScreen(
                 text = viewModel.usernameText.value,
                 onValueChange = {
                     viewModel.setUserNameText(it)
-                    isEmailValid = if(!viewModel.usernameText.value.isEmailValid()){
+                    if (!viewModel.usernameText.value.isEmailValid()) {
                         viewModel.setUserNameError("Enter Valid Email")
-                        false
-                    } else{
+                        viewModel.setIsEmailValid(false)
+                    } else {
                         viewModel.setUserNameError("")
-                        true
+                        viewModel.setIsEmailValid(true)
                     }
                 },
                 hint = stringResource(id = R.string.email_hint),
                 //isError = viewModel.usernameText.value == "error"
-                 error = viewModel.usernameError.value,
+                error = viewModel.usernameError.value,
 
-            )
+                )
             Spacer(modifier = Modifier.height(SpaceMedium))
             StandardTextField(
                 text = viewModel.passwordText.value,
                 onValueChange = {
                     viewModel.setPasswordText(it)
-                    isPasswordValid = if( viewModel.passwordText.value.length<passwordMinLength){
+                    if (viewModel.passwordText.value.length < passwordMinLength) {
                         viewModel.setPasswordError("Password too short")
-                        false
-                    } else{
+                        viewModel.setIsPasswordValid(false)
+                    } else {
                         viewModel.setPasswordError("")
-                        true
+                        viewModel.setIsPasswordValid(true)
                     }
                 },
                 hint = stringResource(id = R.string.password_hint),
@@ -97,15 +91,18 @@ fun LoginScreen(
                 viewModel.setShowPassword(it)
             }
             Spacer(modifier = Modifier.height(SpaceMedium))
-            Button(onClick = {
-                navController.navigate(Screen.MainScreen.route)
-            },
-            enabled= isEmailValid,
-            modifier = Modifier
-                .align(Alignment.End)
+            Button(
+                onClick = {
+                    navController.navigate(Screen.MainScreen.route)
+                },
+                enabled = viewModel.isEmailValid.value && viewModel.isPasswordValid.value,
+                modifier = Modifier
+                    .align(Alignment.End)
             ) {
-                Text(text = stringResource(id = R.string.login),
-                color = MaterialTheme.colors.onPrimary)
+                Text(
+                    text = stringResource(id = R.string.login),
+                    color = MaterialTheme.colors.onPrimary
+                )
 
             }
         }
@@ -116,14 +113,15 @@ fun LoginScreen(
                 append(stringResource(id = R.string.dont_have_an_account_yet))
                 append("")
 
-               withStyle(style = SpanStyle(
-                   color = MaterialTheme.colors.primary
-               )
-               ) {
-                   append("   Sign Up")
+                withStyle(
+                    style = SpanStyle(
+                        color = MaterialTheme.colors.primary
+                    )
+                ) {
+                    append("   Sign Up")
                 }
-            } ,
-             style = MaterialTheme.typography.body1,
+            },
+            style = MaterialTheme.typography.body1,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
                 .clickable {

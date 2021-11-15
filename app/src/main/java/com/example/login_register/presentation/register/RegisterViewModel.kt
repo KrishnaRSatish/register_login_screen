@@ -31,6 +31,15 @@ class RegisterViewModel @Inject constructor()  : ViewModel() {
     private val _passwordError = mutableStateOf("")
     val passwordError:State<String> = _passwordError
 
+    private val _isEmailValid = mutableStateOf(false)
+    val isEmailValid:State<Boolean> = _isEmailValid
+
+    private val _isPasswordValid = mutableStateOf(false)
+    val isPasswordValid:State<Boolean> = _isPasswordValid
+
+    private val _isUserNameValid = mutableStateOf(false)
+    val isUserNameValid:State<Boolean> = _isUserNameValid
+
     fun setUserNameText(username:String){
         _usernameText.value = username
     }
@@ -51,7 +60,7 @@ class RegisterViewModel @Inject constructor()  : ViewModel() {
        _usernameError.value = error
     }
 
-    fun setEmailNameError(error:String){
+    fun setEmailError(error:String){
         _emailError.value = error
     }
 
@@ -59,5 +68,16 @@ class RegisterViewModel @Inject constructor()  : ViewModel() {
         _passwordError.value = error
     }
 
+    fun setIsEmailValid(value:Boolean){
+        _isEmailValid.value=value
+    }
+
+    fun setIsPasswordValid(value:Boolean){
+        _isPasswordValid.value=value
+    }
+
+    fun setIsUsernameValid(value:Boolean){
+        _isUserNameValid.value=value
+    }
 
 }
