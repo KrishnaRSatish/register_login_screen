@@ -1,4 +1,4 @@
-package com.example.login_register.presentation.main_screen
+package com.example.login_register.presentation.screens.main_screen
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -13,6 +13,7 @@ fun MainScreen(
     name:String?,
     navController: NavController
 ){
+   // navController.popBackStack()
     Column( modifier = Modifier
         .fillMaxWidth()) {
         Text(

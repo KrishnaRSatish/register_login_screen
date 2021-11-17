@@ -6,10 +6,10 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
-import com.example.login_register.presentation.login.LoginScreen
-import com.example.login_register.presentation.main_screen.MainScreen
-import com.example.login_register.presentation.register.RegisterScreen
-import com.example.login_register.presentation.splash.SplashScreen
+import com.example.login_register.presentation.screens.login.LoginScreen
+import com.example.login_register.presentation.screens.main_screen.MainScreen
+import com.example.login_register.presentation.screens.register.RegisterScreen
+import com.example.login_register.presentation.screens.splash.SplashScreen
 
 @Composable
 fun Navigation() {
